@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <title>Til Mille Jensen 💌</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: #ffe4ef;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Envelope container */
+    #envelopeContainer {
+      width: 80%;
+      max-width: 600px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    #envelopeContainer:hover {
+      transform: scale(1.02);
+    }
+
+    /* Envelope shape */
+    .envelope {
+      width: 100%;
+      height: 350px;
+      background: #ffb6d5;
+      border-radius: 20px;
+      position: relative;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    /* Envelope flap */
+    .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: #ff9fc8;
+      border-radius: 20px 20px 0 0;
+      transform-origin: top;
+      transition: transform 0.6s ease;
+    }
+
+    /* Heart seal */
+    .seal {
+      width: 50px;
+      height: 50px;
+      background: #ff4f8b;
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      border-radius: 10px;
+    }
+
+    .seal::before,
+    .seal::after {
+      content: "";
+      width: 50px;
+      height: 50px;
+      background: #ff4f8b;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .seal::before {
+      top: -25px;
+      left: 0;
+    }
+
+    .seal::after {
+      left: -25px;
+      top: 0;
+    }
+
+    /* Name text */
+    .nameTag {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #a83263;
+    }
+
+    /* Letter */
+    #letter {
+      position: absolute;
+      width: 90%;
+      max-width: 520px;
+      background: #ffeaf2;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      text-align: center;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: top 0.7s ease;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 12px 28px;
+      border-radius: 30px;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      margin: 10px;
+      transition: transform 0.2s ease;
+    }
+
+    #yesBtn {
+      background: #ff4f8b;
+      color: white;
+    }
+
+    #noBtn {
+      background: transparent;
+      border: 2px solid #ff4f8b;
+      color: #ff4f8b;
+    }
+
+    /* Final screen */
+    #finalScreen {
+      display: none;
+      text-align: center;
+      color: #ff2f75;
+    }
+
+    #finalScreen h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    #finalScreen p {
+      font-size: 1.4rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Envelope -->
+  <div id="envelopeContainer">
+    <div class="envelope">
+      <div class="flap" id="flap"></div>
+      <div class="seal"></div>
+      <div class="nameTag">Til Mille Jensen</div>
+    </div>
+  </div>
+
+  <!-- Letter -->
+  <div id="letter">
+    <h2>Vil du være min valentin, skat?</h2>
+    <button class="btn" id="yesBtn">Ja 💗</button>
+    <button class="btn" id="noBtn">Nej 😈</button>
+  </div>
+
+  <!-- Final Screen -->
+  <div id="finalScreen">
+    <h1>JEG VIDSTE DU VIL SIGE JAAA!!!!! 🎉</h1>
+    <p>Jeg elsker DIG 💖</p>
+  </div>
+
+<script>
+  const envelope = document.getElementById("envelopeContainer");
+  const flap = document.getElementById("flap");
+  const letter = document.getElementById("letter");
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+  const finalScreen = document.getElementById("finalScreen");
+
+  let noClicks = 0;
+  let noScale = 1;
+  let yesScale = 1;
+
+  // Open envelope
+  envelope.addEventListener("click", () => {
+    flap.style.transform = "rotateX(-180deg)";
+    setTimeout(() => {
+      letter.style.top = "20%";
+    }, 300);
+  });
+
+  // Yes button → final screen
+  yesBtn.addEventListener("click", () => {
+    document.body.innerHTML = "";
+    document.body.appendChild(finalScreen);
+    finalScreen.style.display = "block";
+  });
+
+  // No button behavior
+  noBtn.addEventListener("click", () => {
+    noClicks++;
+
+    // Shrink NO
+    noScale = Math.max(0.4, noScale - 0.15);
+    noBtn.style.transform = `scale(${noScale})`;
+
+    // Grow YES
+    yesScale = Math.min(2.2, yesScale + 0.15);
+    yesBtn.style.transform = `scale(${yesScale})`;
+
+    // After 5 clicks → NO dodges
+    if (noClicks >= 5) {
+      noBtn.style.position = "absolute";
+      noBtn.style.left = Math.random() * 60 + "%";
+      noBtn.style.top = Math.random() * 60 + "%";
+    }
+  });
+</script>
+
+</body>
+</html>
